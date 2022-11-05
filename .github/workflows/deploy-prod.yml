@@ -13,9 +13,9 @@ env:
   AWS_REGION: ap-northeast-2
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-permissions:
-  pull-request: write
-  push: read
+# permissions:
+#  pull-request: write
+#  push: read
 
 jobs:
   deploy:
