@@ -43,4 +43,4 @@ resource "aws_route_table_association" "public_route_table_association_3" {
   route_table_id = aws_route_table.public_route_table.id
 }
 
-# test
+
