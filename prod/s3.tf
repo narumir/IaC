@@ -1,8 +1,7 @@
 resource "aws_s3_bucket" "blog_frontend" {
-  bucket = "blog-frontend-2546252"
+  bucket = "blog-${random_uuid.blog_frontend_s3.result}"
   tags = {
-    Name       = "blog-frontend-2546252"
-    Enviroment = "Dev"
+    Name       = "blog-frontend"
   }
 }
 
