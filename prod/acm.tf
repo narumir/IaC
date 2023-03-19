@@ -1,4 +1,4 @@
-resource "aws_acm_certificate" "domain_certification" {
+resource "aws_acm_certificate" "seoul_domain_certification" {
   domain_name       = "*.narumir.io"
   validation_method = "DNS"
   lifecycle {

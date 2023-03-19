@@ -6,10 +6,16 @@ resource "aws_apigatewayv2_api" "blog_gateway" {
 resource "aws_apigatewayv2_domain_name" "blog_domain" {
   domain_name = "www.narumir.io"
   domain_name_configuration {
-    certificate_arn = aws_acm_certificate.domain_certification.arn
+    certificate_arn = aws_acm_certificate.seoul_domain_certification.arn
     endpoint_type   = "REGIONAL"
     security_policy = "TLS_1_2"
   }
+}
+
+resource "aws_apigatewayv2_api_mapping" "domain_mapping" {
+  api_id = aws_apigatewayv2_api.blog_gateway.id
+  domain_name = aws_apigatewayv2_domain_name.blog_domain.domain_name
+  stage = aws_apigatewayv2_stage.lambda.id
 }
 
 resource "aws_apigatewayv2_stage" "lambda" {
