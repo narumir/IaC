@@ -44,14 +44,14 @@ resource "aws_apigatewayv2_stage" "lambda" {
 }
 
 resource "aws_apigatewayv2_integration" "hello_world" {
-  api_id = aws_apigatewayv2_api.blog_gateway.id
+  api_id             = aws_apigatewayv2_api.blog_gateway.id
   integration_uri    = aws_lambda_function.blog_ssr.invoke_arn
   integration_type   = "AWS_PROXY"
   integration_method = "POST"
 }
 
 resource "aws_apigatewayv2_route" "hello_world" {
-  api_id = aws_apigatewayv2_api.blog_gateway.id
+  api_id    = aws_apigatewayv2_api.blog_gateway.id
   route_key = "GET /{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.hello_world.id}"
 }

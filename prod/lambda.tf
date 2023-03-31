@@ -14,5 +14,5 @@ resource "aws_lambda_permission" "api_gw" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.blog_ssr.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn = "${aws_apigatewayv2_api.blog_gateway.execution_arn}/*/*"
+  source_arn    = "${aws_apigatewayv2_api.blog_gateway.execution_arn}/*/*"
 }
