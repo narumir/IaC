@@ -1,4 +1,4 @@
-resource "aws_acm_certificate" "seoul_domain_certification" {
+resource "aws_acm_certificate" "narumir_io_seoul" {
   domain_name       = "*.narumir.io"
   validation_method = "DNS"
   lifecycle {
@@ -7,7 +7,7 @@ resource "aws_acm_certificate" "seoul_domain_certification" {
   }
 }
 
-resource "aws_acm_certificate" "global_domain_certification" {
+resource "aws_acm_certificate" "narumir_io_global" {
   domain_name       = "*.narumir.io"
   validation_method = "DNS"
   lifecycle {
@@ -15,4 +15,5 @@ resource "aws_acm_certificate" "global_domain_certification" {
     # elb와 같은 서비스에서 항상 사용중 이기 때문에 인증서를 삭제 전에 인증서를 생성하고 갱신 해야 한다.
   }
   provider = aws.global
+  # 글로벌 인증서 이기에 us-east-1에 인증서를 생성해야 한다.
 }
