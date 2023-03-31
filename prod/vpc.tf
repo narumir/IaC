@@ -2,19 +2,19 @@ resource "aws_vpc" "seoul_vpc" {
   cidr_block = "10.0.0.0/16"
 }
 
-resource "aws_subnet" "public_subnet_1" {
+resource "aws_subnet" "seoul_public_subnet_1" {
   vpc_id            = aws_vpc.seoul_vpc.id
   cidr_block        = "10.0.0.0/20"
   availability_zone = "ap-northeast-2a"
 }
 
-resource "aws_subnet" "public_subnet_2" {
+resource "aws_subnet" "seoul_public_subnet_2" {
   vpc_id            = aws_vpc.seoul_vpc.id
   cidr_block        = "10.0.16.0/20"
   availability_zone = "ap-northeast-2b"
 }
 
-resource "aws_subnet" "public_subnet_3" {
+resource "aws_subnet" "seoul_public_subnet_3" {
   vpc_id            = aws_vpc.seoul_vpc.id
   cidr_block        = "10.0.32.0/20"
   availability_zone = "ap-northeast-2c"
@@ -29,16 +29,16 @@ resource "aws_route_table" "public_route_table" {
 }
 
 resource "aws_route_table_association" "public_route_table_association_1" {
-  subnet_id      = aws_subnet.public_subnet_1.id
+  subnet_id      = aws_subnet.seoul_public_subnet_1.id
   route_table_id = aws_route_table.public_route_table.id
 }
 
 resource "aws_route_table_association" "public_route_table_association_2" {
-  subnet_id      = aws_subnet.public_subnet_2.id
+  subnet_id      = aws_subnet.seoul_public_subnet_2.id
   route_table_id = aws_route_table.public_route_table.id
 }
 
 resource "aws_route_table_association" "public_route_table_association_3" {
-  subnet_id      = aws_subnet.public_subnet_3.id
+  subnet_id      = aws_subnet.seoul_public_subnet_3.id
   route_table_id = aws_route_table.public_route_table.id
 }

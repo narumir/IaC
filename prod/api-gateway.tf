@@ -13,9 +13,9 @@ resource "aws_apigatewayv2_domain_name" "blog_domain" {
 }
 
 resource "aws_apigatewayv2_api_mapping" "domain_mapping" {
-  api_id = aws_apigatewayv2_api.blog_gateway.id
+  api_id      = aws_apigatewayv2_api.blog_gateway.id
   domain_name = aws_apigatewayv2_domain_name.blog_domain.domain_name
-  stage = aws_apigatewayv2_stage.lambda.id
+  stage       = aws_apigatewayv2_stage.lambda.id
 }
 
 resource "aws_apigatewayv2_stage" "lambda" {
