@@ -6,7 +6,7 @@ resource "aws_apigatewayv2_api" "blog_gateway" {
 resource "aws_apigatewayv2_domain_name" "blog_domain" {
   domain_name = "www.narumir.io"
   domain_name_configuration {
-    certificate_arn = aws_acm_certificate.seoul_domain_certification.arn
+    certificate_arn = aws_acm_certificate.narumir_io_seoul.arn
     endpoint_type   = "REGIONAL"
     security_policy = "TLS_1_2"
   }
@@ -44,16 +44,14 @@ resource "aws_apigatewayv2_stage" "lambda" {
 }
 
 resource "aws_apigatewayv2_integration" "hello_world" {
-  api_id = aws_apigatewayv2_api.blog_gateway.id
-
+  api_id             = aws_apigatewayv2_api.blog_gateway.id
   integration_uri    = aws_lambda_function.blog_ssr.invoke_arn
   integration_type   = "AWS_PROXY"
   integration_method = "POST"
 }
 
 resource "aws_apigatewayv2_route" "hello_world" {
-  api_id = aws_apigatewayv2_api.blog_gateway.id
-
+  api_id    = aws_apigatewayv2_api.blog_gateway.id
   route_key = "GET /{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.hello_world.id}"
 }
