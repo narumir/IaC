@@ -2,7 +2,7 @@
 
 module.exports.handler = async (event) => {
     const body = JSON.stringify({
-        message: "hello word",
+        message: "hello word!!",
         // input: event,
     });
     return {
