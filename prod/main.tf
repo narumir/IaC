@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "tfstate"
+    bucket = "narumir-tfstate"
     key    = "terraform/narumir"
     region = "ap-northeast-2"
   }
