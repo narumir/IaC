@@ -1,4 +1,9 @@
 terraform {
+  backend "s3" {
+    bucket = "tfstate"
+    key    = "terraform/narumir"
+    region = "ap-northeast-2"
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
