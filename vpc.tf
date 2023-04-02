@@ -20,25 +20,25 @@ resource "aws_subnet" "seoul_public_subnet_3" {
   availability_zone = "ap-northeast-2c"
 }
 
-resource "aws_internet_gateway" "IGW" {
+resource "aws_internet_gateway" "seoul_igw" {
   vpc_id = aws_vpc.seoul_vpc.id
 }
 
-resource "aws_route_table" "public_route_table" {
+resource "aws_route_table" "seoul_public_table" {
   vpc_id = aws_vpc.seoul_vpc.id
 }
 
-resource "aws_route_table_association" "public_route_table_association_1" {
+resource "aws_route_table_association" "seoul_public_1" {
   subnet_id      = aws_subnet.seoul_public_subnet_1.id
-  route_table_id = aws_route_table.public_route_table.id
+  route_table_id = aws_route_table.seoul_public_table.id
 }
 
-resource "aws_route_table_association" "public_route_table_association_2" {
+resource "aws_route_table_association" "seoul_public_2" {
   subnet_id      = aws_subnet.seoul_public_subnet_2.id
-  route_table_id = aws_route_table.public_route_table.id
+  route_table_id = aws_route_table.seoul_public_table.id
 }
 
-resource "aws_route_table_association" "public_route_table_association_3" {
+resource "aws_route_table_association" "seoul_public_3" {
   subnet_id      = aws_subnet.seoul_public_subnet_3.id
-  route_table_id = aws_route_table.public_route_table.id
+  route_table_id = aws_route_table.seoul_public_table.id
 }

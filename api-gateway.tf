@@ -1,10 +1,10 @@
-resource "aws_apigatewayv2_api" "blog_gateway" {
-  name          = "blog-gateway"
+resource "aws_apigatewayv2_api" "narumir_blog" {
+  name          = "narumir_blog"
   protocol_type = "HTTP"
 }
 
-resource "aws_apigatewayv2_domain_name" "blog_domain" {
-  domain_name = "www.narumir.io"
+resource "aws_apigatewayv2_domain_name" "narumir_blog" {
+  domain_name = "blog.narumir.io"
   domain_name_configuration {
     certificate_arn = aws_acm_certificate.narumir_io_seoul.arn
     endpoint_type   = "REGIONAL"
@@ -13,20 +13,18 @@ resource "aws_apigatewayv2_domain_name" "blog_domain" {
 }
 
 resource "aws_apigatewayv2_api_mapping" "domain_mapping" {
-  api_id      = aws_apigatewayv2_api.blog_gateway.id
-  domain_name = aws_apigatewayv2_domain_name.blog_domain.domain_name
-  stage       = aws_apigatewayv2_stage.lambda.id
+  api_id      = aws_apigatewayv2_api.narumir_blog.id
+  domain_name = aws_apigatewayv2_domain_name.narumir_blog.domain_name
+  stage       = aws_apigatewayv2_stage.narumir_blog_prod.id
 }
 
-resource "aws_apigatewayv2_stage" "lambda" {
-  api_id = aws_apigatewayv2_api.blog_gateway.id
-
+resource "aws_apigatewayv2_stage" "narumir_blog_prod" {
+  api_id      = aws_apigatewayv2_api.narumir_blog.id
   name        = "prod"
   auto_deploy = true
 
   access_log_settings {
-    destination_arn = aws_cloudwatch_log_group.blog_api_gw.arn
-
+    destination_arn = aws_cloudwatch_log_group.narumir_blog_api_gw.arn
     format = jsonencode({
       requestId               = "$context.requestId"
       sourceIp                = "$context.identity.sourceIp"
@@ -43,15 +41,15 @@ resource "aws_apigatewayv2_stage" "lambda" {
   }
 }
 
-resource "aws_apigatewayv2_integration" "hello_world" {
-  api_id             = aws_apigatewayv2_api.blog_gateway.id
-  integration_uri    = aws_lambda_function.blog_ssr.invoke_arn
-  integration_type   = "AWS_PROXY"
-  integration_method = "POST"
+resource "aws_apigatewayv2_integration" "narumir_blog" {
+  api_id           = aws_apigatewayv2_api.narumir_blog.id
+  integration_uri  = aws_lambda_function.narumir_blog.invoke_arn
+  integration_type = "AWS_PROXY"
+  # integration_method = "POST"
 }
 
 resource "aws_apigatewayv2_route" "hello_world" {
-  api_id    = aws_apigatewayv2_api.blog_gateway.id
-  route_key = "GET /{proxy+}"
-  target    = "integrations/${aws_apigatewayv2_integration.hello_world.id}"
+  api_id    = aws_apigatewayv2_api.narumir_blog.id
+  route_key = "$default"
+  target    = "integrations/${aws_apigatewayv2_integration.narumir_blog.id}"
 }
