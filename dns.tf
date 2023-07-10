@@ -3,6 +3,7 @@ resource "cloudflare_record" "bluesky" {
   name    = "_atproto"
   value   = "did=did:plc:pfzigorxnxx4oljx46bpvmri"
   type    = "TXT"
+  comment = "Managed with terraform."
 }
 
 resource "cloudflare_record" "tistory" {
@@ -11,6 +12,7 @@ resource "cloudflare_record" "tistory" {
   value   = "host.tistory.io"
   type    = "CNAME"
   proxied = false
+  comment = "Managed with terraform."
 }
 
 resource "cloudflare_record" "home" {
@@ -19,6 +21,7 @@ resource "cloudflare_record" "home" {
   value   = "175.197.17.80"
   type    = "A"
   proxied = true
+  comment = "Managed with terraform."
 }
 
 resource "cloudflare_record" "aws_acm_global_narumir_io_certification" {
@@ -36,4 +39,5 @@ resource "cloudflare_record" "aws_acm_global_narumir_io_certification" {
   type            = each.value.type
   value           = each.value.record
   ttl             = 1
+  comment         = "Managed with terraform."
 }
