@@ -6,4 +6,18 @@ variable "AWS_SECRET_ACCESS_KEY" {
   type = string
 }
 
-resource "random_uuid" "blog_frontend_s3" {}
+variable "CLOUDFLARE_ZONE_ID" {
+  type = string
+}
+
+variable "CLOUDFLARE_ACCOUNT_ID" {
+  type = string
+}
+
+variable "CLOUDFLARE_API_TOKEN" {
+  type = string
+}
+
+variable "narumir_io_domain" {
+  default = "narumir.io"
+}

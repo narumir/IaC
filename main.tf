@@ -5,6 +5,10 @@ terraform {
     region = "ap-northeast-2"
   }
   required_providers {
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~>4.9.0"
+    }
     aws = {
       source  = "hashicorp/aws"
       version = "~> 4.40"
@@ -19,6 +23,11 @@ terraform {
     }
   }
   required_version = ">= 1.2.0"
+}
+
+provider "cloudflare" {
+  api_token = var.CLOUDFLARE_API_TOKEN
+  
 }
 
 provider "aws" {
