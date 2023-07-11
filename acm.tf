@@ -14,6 +14,7 @@ resource "aws_acm_certificate_validation" "narumir_io_global_validation" {
   validation_record_fqdns = [for record in cloudflare_record.aws_acm_global_narumir_io_certification : record.hostname]
   provider                = aws.global
 }
+
 resource "aws_acm_certificate" "narumir_io_seoul" {
   domain_name       = "*.narumir.io"
   validation_method = "DNS"
