@@ -30,10 +30,10 @@ provider "cloudflare" {
 }
 
 provider "aws" {
-  access_key                  = var.CLOUDFLARE_R2_ACCESS_KEY
-  secret_key                  = var.CLOUDFLARE_R2_SECRET_KEY
-  alias                       = "cloudflare_r2"
-  region                      = "us-east-1"
+  access_key = var.CLOUDFLARE_R2_ACCESS_KEY
+  secret_key = var.CLOUDFLARE_R2_SECRET_KEY
+  alias      = "cloudflare_r2"
+  region     = "us-east-1"
   # S3는 글로벌 설정이라 미 설정시 ap-northeast-2로 적용되서 오류 발생
   skip_credentials_validation = true
   skip_region_validation      = true
