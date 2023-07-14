@@ -18,6 +18,14 @@ variable "CLOUDFLARE_API_TOKEN" {
   type = string
 }
 
+variable "CLOUDFLARE_R2_ACCESS_KEY" {
+  type = string
+}
+
+variable "CLOUDFLARE_R2_SECRET_KEY" {
+  type = string
+}
+
 variable "narumir_io_domain" {
   default = "narumir.io"
 }
