@@ -29,3 +29,5 @@ variable "CLOUDFLARE_R2_SECRET_KEY" {
 variable "narumir_io_domain" {
   default = "narumir.io"
 }
+
+resource "random_uuid" "blog_deploy_bucket" {}
