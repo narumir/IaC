@@ -30,4 +30,4 @@ variable "narumir_io_domain" {
   default = "narumir.io"
 }
 
-resource "random_uuid" "blog_deploy_bucket" {}
+resource "random_uuid" "blog_ssr_bucket" {}
