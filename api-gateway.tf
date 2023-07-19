@@ -54,6 +54,10 @@ resource "aws_api_gateway_deployment" "blog_ssr" {
   lifecycle {
     create_before_destroy = true
   }
+  depends_on = [
+    aws_api_gateway_integration.blog_ssr_root,
+    aws_api_gateway_integration.blog_ssr_proxy
+  ]
 }
 
 resource "aws_api_gateway_stage" "blog_ssr" {
