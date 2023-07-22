@@ -1,15 +1,19 @@
 data "aws_iam_policy_document" "lambda_exec" {
+  version = "2012-10-17"
   statement {
     effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
     principals {
       type        = "Service"
       identifiers = ["lambda.amazonaws.com"]
     }
-    actions = ["sts:AssumeRole"]
   }
 }
 
 data "aws_iam_policy_document" "blog_ssr" {
+  version = "2012-10-17"
   statement {
     effect = "Allow"
     actions = [
@@ -39,7 +43,11 @@ resource "aws_iam_policy" "blog_ssr" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name                = "labmda_exec"
-  assume_role_policy  = data.aws_iam_policy_document.lambda_exec.json
-  managed_policy_arns = [aws_iam_policy.blog_ssr.arn]
+  name               = "labmda_exec"
+  assume_role_policy = data.aws_iam_policy_document.lambda_exec.json
+}
+
+resource "aws_iam_role_policy_attachment" "blog_ssr" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.blog_ssr.arn
 }
