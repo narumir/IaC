@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "blog_ssr" {
       "logs:TagResource"
     ]
     resources = [
-      aws_cloudwatch_log_group.blog_ssr.arn
+      "${aws_cloudwatch_log_group.blog_ssr.arn}*:*"
     ]
   }
   statement {
@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "blog_ssr" {
       "logs:PutLogEvents"
     ]
     resources = [
-      aws_cloudwatch_log_group.blog_ssr.arn
+      "${aws_cloudwatch_log_group.blog_ssr.arn}*:*:*"
     ]
   }
 }
