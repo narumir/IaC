@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "blog_ssr" {
   statement {
     effect = "Allow"
     actions = [
-      "logs:PutLogEvent"
+      "logs:PutLogEvents"
     ]
     resources = [
       aws_cloudwatch_log_group.blog_ssr.arn
