@@ -41,3 +41,13 @@ resource "cloudflare_record" "aws_acm_global_narumir_io_certification" {
   ttl             = 1
   comment         = "Managed with terraform."
 }
+
+resource "cloudflare_record" "blog" {
+  zone_id         = var.CLOUDFLARE_ZONE_ID
+  allow_overwrite = true
+  proxied         = false
+  name            = "blog"
+  type            = "CNAME"
+  value           = aws_cloudfront_distribution.blog_ssr.domain_name
+  comment         = "Managed with terraform."
+}
