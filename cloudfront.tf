@@ -13,10 +13,10 @@ resource "aws_cloudfront_distribution" "blog_ssr" {
       origin_read_timeout      = 30
     }
     origin_path = "/prod"
-    origin_shield {
-      enabled              = false
-      origin_shield_region = "ap-northeast-2"
-    }
+    # origin_shield {
+    #   enabled              = false
+    #   origin_shield_region = "ap-northeast-2"
+    # }
     connection_attempts = 3
     connection_timeout  = 10
   }
@@ -49,7 +49,7 @@ resource "aws_cloudfront_distribution" "blog_ssr" {
     ssl_support_method             = "sni-only"
   }
   # http_version = "http3"
-  http_version = "http2"
+  http_version = "http2and3"
   # default_root_object = "index.html"
   # logging_config {
   #   enabled = false
