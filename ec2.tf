@@ -1,6 +1,6 @@
 resource "aws_key_pair" "blog_ssh" {
   key_name   = "blog_ssh"
-  public_key = var.AWS_BLOG_SSH_PUBLIC_KEY
+  public_key = data.aws_ssm_parameter.blog_prod_ssh_public_key.value
 }
 
 resource "aws_instance" "blog_backend" {

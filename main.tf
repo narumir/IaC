@@ -26,12 +26,12 @@ terraform {
 }
 
 provider "cloudflare" {
-  api_token = var.CLOUDFLARE_API_TOKEN
+  api_token = data.aws_ssm_parameter.cloudflare_narumir_io_api_token.value
 }
 
 provider "aws" {
-  access_key = var.CLOUDFLARE_R2_ACCESS_KEY
-  secret_key = var.CLOUDFLARE_R2_SECRET_KEY
+  access_key = data.aws_ssm_parameter.cloudflare_r2_access_key.value
+  secret_key = data.aws_ssm_parameter.cloudflare_r2_secret_key.value
   alias      = "cloudflare_r2"
   region     = "us-east-1"
   # S3는 글로벌 설정이라 미 설정시 ap-northeast-2로 적용되서 오류 발생
@@ -39,7 +39,7 @@ provider "aws" {
   skip_region_validation      = true
   skip_requesting_account_id  = true
   endpoints {
-    s3 = "https://${var.CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com"
+    s3 = "https://${data.aws_ssm_parameter.cloudflare_account_id.value}.r2.cloudflarestorage.com"
   }
 }
 
