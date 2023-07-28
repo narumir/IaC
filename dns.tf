@@ -51,3 +51,13 @@ resource "cloudflare_record" "blog" {
   value           = aws_cloudfront_distribution.blog_ssr.domain_name
   comment         = "Managed with terraform."
 }
+
+resource "cloudflare_record" "api-blog" {
+  zone_id         = var.CLOUDFLARE_ZONE_ID
+  allow_overwrite = true
+  proxied         = true
+  name            = "api-blog"
+  type            = "A"
+  value           = aws_instance.blog_backend.public_ip
+  comment         = "Managed with terraform."
+}

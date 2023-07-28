@@ -6,6 +6,10 @@ variable "AWS_SECRET_ACCESS_KEY" {
   type = string
 }
 
+variable "AWS_BLOG_SSH_PUBLIC_KEY" {
+  type = string
+}
+
 variable "CLOUDFLARE_ZONE_ID" {
   type = string
 }
