@@ -41,3 +41,5 @@ data "aws_ssm_parameter" "cloudflare_r2_secret_key" {
   name            = "/cloudflare/r2/secret_key"
   with_decryption = true
 }
+
+data "aws_caller_identity" "current" {}

@@ -9,6 +9,7 @@ resource "aws_instance" "blog_backend" {
   key_name                    = aws_key_pair.blog_ssh.key_name
   subnet_id                   = data.aws_subnet.seoul_public_subnet_1.id
   associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.ec2_role.name
   vpc_security_group_ids = [
     aws_security_group.allow_http_https.id,
     aws_security_group.allow_ssh.id,
