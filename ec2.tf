@@ -16,4 +16,8 @@ resource "aws_instance" "blog_backend" {
   root_block_device {
     volume_size = 30
   }
+  tags = {
+    Type    = "backend"
+    Service = "blog"
+  }
 }
