@@ -104,7 +104,8 @@ data "aws_iam_policy_document" "ec2_role_ssm" {
     effect = "Allow"
     actions = [
       "ssm:GetParameter",
-      "ssm:GetParameters"
+      "ssm:GetParameters",
+      "ssm:GetParametersByPath"
     ]
     resources = [
       "arn:aws:ssm:ap-northeast-2:${data.aws_caller_identity.current.account_id}:parameter/blog",
