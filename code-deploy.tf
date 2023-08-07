@@ -4,9 +4,10 @@ resource "aws_codedeploy_app" "blog_backend" {
 }
 
 resource "aws_codedeploy_deployment_group" "blog_backend" {
-  app_name              = aws_codedeploy_app.blog_backend.name
-  deployment_group_name = "deploy_api"
-  service_role_arn      = aws_iam_role.codedeploy_role.arn
+  app_name               = aws_codedeploy_app.blog_backend.name
+  deployment_group_name  = "deploy_api"
+  service_role_arn       = aws_iam_role.codedeploy_role.arn
+  deployment_config_name = "CodeDeployDefault.AllAtOnce"
   deployment_style {
     deployment_option = "WITHOUT_TRAFFIC_CONTROL"
     deployment_type   = "IN_PLACE"
@@ -23,5 +24,4 @@ resource "aws_codedeploy_deployment_group" "blog_backend" {
       value = "blog"
     }
   }
-  deployment_config_name = "CodeDeployDefault.AllAtOnce"
 }
