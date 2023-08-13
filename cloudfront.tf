@@ -25,7 +25,7 @@ resource "aws_cloudfront_distribution" "blog_ssr" {
     target_origin_id         = aws_api_gateway_rest_api.blog_ssr.id
     compress                 = true
     viewer_protocol_policy   = "redirect-to-https"
-    allowed_methods          = ["GET", "HEAD"]
+    allowed_methods          = ["GET", "HEAD", "POST"]
     cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # CachingDisabled
     origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac" # AllViewerExceptHostHeader
     smooth_streaming         = false
