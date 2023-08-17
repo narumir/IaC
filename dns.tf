@@ -42,16 +42,6 @@ resource "cloudflare_record" "aws_acm_global_narumir_io_certification" {
   comment         = "Managed with terraform."
 }
 
-resource "cloudflare_record" "blog" {
-  zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
-  allow_overwrite = true
-  proxied         = false
-  name            = "blog"
-  type            = "CNAME"
-  value           = aws_cloudfront_distribution.blog_ssr.domain_name
-  comment         = "Managed with terraform."
-}
-
 resource "cloudflare_record" "api-blog" {
   zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
   allow_overwrite = true

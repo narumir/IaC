@@ -1,3 +1,14 @@
+data "aws_iam_policy_document" "codedeploy_document" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["codedeploy.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
+
 resource "aws_iam_role" "codedeploy_role" {
   name               = "codedeploy-role"
   assume_role_policy = data.aws_iam_policy_document.codedeploy_document.json
