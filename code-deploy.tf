@@ -26,7 +26,7 @@ resource "aws_codedeploy_deployment_group" "blog_backend" {
   }
 }
 
-resource "aws_codedeploy_deployment_group" "blog_backend" {
+resource "aws_codedeploy_deployment_group" "blog_frontend" {
   app_name               = aws_codedeploy_app.blog_backend.name
   deployment_group_name  = "deploy_frontend"
   service_role_arn       = aws_iam_role.codedeploy_role.arn
