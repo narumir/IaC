@@ -51,3 +51,13 @@ resource "cloudflare_record" "api-blog" {
   value           = aws_instance.blog_backend.public_ip
   comment         = "Managed with terraform."
 }
+
+resource "cloudflare_record" "blog" {
+  zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
+  allow_overwrite = true
+  proxied         = true
+  name            = "blog"
+  type            = "A"
+  value           = aws_instance.blog_backend.public_ip
+  comment         = "Managed with terraform."
+}
