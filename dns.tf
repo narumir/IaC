@@ -61,3 +61,13 @@ resource "cloudflare_record" "blog" {
   value           = aws_instance.blog_backend.public_ip
   comment         = "Managed with terraform."
 }
+
+resource "cloudflare_record" "wiki-blog" {
+  zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
+  allow_overwrite = true
+  proxied         = true
+  name            = "wiki-blog"
+  type            = "CNAME"
+  value           = "narumir.github.io"
+  comment         = "Managed with terraform."
+}
