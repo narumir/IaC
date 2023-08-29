@@ -13,10 +13,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.14"
     }
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.80.0"
-    }
   }
   required_version = ">= 1.5.6"
 }
@@ -29,10 +25,4 @@ provider "aws" {
   region     = "ap-northeast-2"
   access_key = var.AWS_ACCESS_KEY
   secret_key = var.AWS_SECRET_ACCESS_KEY
-}
-
-provider "google" {
-  project     = "narumir"
-  region      = "asia-northeast3"
-  credentials = data.aws_ssm_parameter.google_credentials
 }

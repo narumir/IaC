@@ -20,8 +20,3 @@ data "aws_ssm_parameter" "cloudflare_narumir_io_api_token" {
   name            = "/cloudflare/narumir.io/api_token"
   with_decryption = true
 }
-
-data "aws_ssm_parameter" "google_credentials" {
-  name            = "/google/credentials"
-  with_decryption = true
-}
