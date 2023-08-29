@@ -24,3 +24,24 @@ resource "cloudflare_record" "wiki-blog" {
   value           = "narumir.github.io"
   comment         = "Managed with terraform."
 }
+
+resource "cloudflare_record" "blog_ipv6" {
+  for_each        = toset(aws_lightsail_instance.blog_k3s.ipv6_addresses)
+  zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
+  allow_overwrite = true
+  proxied         = true
+  name            = "blog"
+  type            = "AAAA"
+  value           = each.key
+  comment         = "Managed with terraform."
+}
+
+resource "cloudflare_record" "blog_ipv4" {
+  zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
+  allow_overwrite = true
+  proxied         = true
+  name            = "blog"
+  type            = "A"
+  value           = aws_lightsail_instance.blog_k3s.public_ip_address
+  comment         = "Managed with terraform."
+}
