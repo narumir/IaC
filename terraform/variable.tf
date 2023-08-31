@@ -25,3 +25,5 @@ data "aws_ssm_parameter" "jacob_cidr" {
   name            = "/pc/jacob_cidr"
   with_decryption = true
 }
+
+data "aws_caller_identity" "current" {}

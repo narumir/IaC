@@ -26,7 +26,7 @@ resource "cloudflare_record" "wiki-blog" {
 }
 
 resource "cloudflare_record" "blog_ipv6" {
-  for_each        = toset(aws_lightsail_instance.blog_k3s.ipv6_addresses)
+  for_each        = toset(aws_instance.k3s_master.ipv6_addresses)
   zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
   allow_overwrite = true
   proxied         = true
@@ -42,6 +42,6 @@ resource "cloudflare_record" "blog_ipv4" {
   proxied         = true
   name            = "blog"
   type            = "A"
-  value           = aws_lightsail_instance.blog_k3s.public_ip_address
+  value           = aws_instance.k3s_master.public_ip
   comment         = "Managed with terraform."
 }
