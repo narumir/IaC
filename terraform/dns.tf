@@ -25,23 +25,32 @@ resource "cloudflare_record" "wiki-blog" {
   comment         = "Managed with terraform."
 }
 
-resource "cloudflare_record" "blog_ipv6" {
-  for_each        = toset(aws_instance.k3s_master.ipv6_addresses)
-  zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
-  allow_overwrite = true
-  proxied         = true
-  name            = "blog"
-  type            = "AAAA"
-  value           = each.key
-  comment         = "Managed with terraform."
-}
-
 resource "cloudflare_record" "blog_ipv4" {
   zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
   allow_overwrite = true
   proxied         = true
   name            = "blog"
   type            = "A"
-  value           = aws_instance.k3s_master.public_ip
+  value           = data.aws_ssm_parameter.jacob_ip.value
+  comment         = "Managed with terraform."
+}
+
+resource "cloudflare_record" "blog_api_ipv4" {
+  zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
+  allow_overwrite = true
+  proxied         = true
+  name            = "api-blog"
+  type            = "A"
+  value           = data.aws_ssm_parameter.jacob_ip.value
+  comment         = "Managed with terraform."
+}
+
+resource "cloudflare_record" "argocd" {
+  zone_id         = data.aws_ssm_parameter.cloudflare_narumir_io_zone_id.value
+  allow_overwrite = true
+  proxied         = false
+  name            = "argocd"
+  type            = "A"
+  value           = data.aws_ssm_parameter.jacob_ip.value
   comment         = "Managed with terraform."
 }

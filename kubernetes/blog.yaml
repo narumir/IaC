@@ -1,0 +1,229 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-postgres
+  namespace: blog
+  labels:
+    app: blog
+spec:
+  selector:
+    matchLabels:
+      app: blog
+      tier: postgres
+  template:
+    metadata:
+      labels:
+        app: blog
+        tier: postgres
+    spec:
+      nodeSelector:
+        pool: node-01
+      containers:
+        - name: blog-postgres
+          image: "postgres:15.4-alpine3.18"
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-writable
+                  key: DB_WRITABLE_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-writable
+                  key: DB_WRITABLE_PASSWORD
+            - name: POSTGRES_DB
+              value: blog
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+          ports:
+            - name: postgres
+              containerPort: 5432
+      volumes:
+        - name: pgdata
+          hostPath:
+            path: /home/ubuntu/blog
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-postgres
+  namespace: blog
+  labels:
+    app: blog
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+      protocol: TCP
+      nodePort: 31000
+  selector:
+    app: blog
+    tier: postgres
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-api
+  namespace: blog
+  labels:
+    app: blog
+spec:
+  selector:
+    matchLabels:
+      app: blog
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: blog
+        tier: api
+    spec:
+      containers:
+        - name: blog-api
+          image: "ghcr.io/narumir/blog-api:0.0.3"
+          env:
+            - name: DB_WRITABLE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-writable
+                  key: DB_WRITABLE_HOST
+            - name: DB_WRITABLE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-writable
+                  key: DB_WRITABLE_USERNAME
+            - name: DB_WRITABLE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-writable
+                  key: DB_WRITABLE_PASSWORD
+            - name: DB_READONLY_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: db-readonly
+                  key: DB_READONLY_HOST
+            - name: DB_READONLY_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-readonly
+                  key: DB_READONLY_USERNAME
+            - name: DB_READONLY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-readonly
+                  key: DB_READONLY_PASSWORD
+            - name: JWT_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt
+                  key: jwt_private_key.txt
+            - name: JWT_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt
+                  key: jwt_public_key.txt
+            - name: RSA_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: rsa
+                  key: rsa_private_key.txt
+            - name: RSA_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: rsa
+                  key: rsa_public_key.txt
+          ports:
+            - name: api
+              containerPort: 4000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-api
+  namespace: blog
+  labels:
+    app: blog
+spec:
+  ports:
+    - port: 4000
+      protocol: TCP
+  selector:
+    app: blog
+    tier: api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-frontend
+  namespace: blog
+  labels:
+    app: blog
+spec:
+  selector:
+    matchLabels:
+      app: blog
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: blog
+        tier: frontend
+    spec:
+      containers:
+        - name: blog-frontend
+          image: "ghcr.io/narumir/blog-frontend:0.0.1"
+          ports:
+            - name: frontend
+              containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-frontend
+  namespace: blog
+  labels:
+    app: blog
+spec:
+  ports:
+    - port: 3000
+      protocol: TCP
+  selector:
+    app: blog
+    tier: frontend
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blog
+  namespace: blog
+spec:
+  tls:
+    - hosts:
+        - blog.narumir.io
+        - api-blog.narumir.io
+      secretName: cloudflare
+  rules:
+    - host: blog.narumir.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: blog-frontend
+                port:
+                  number: 3000
+    - host: api-blog.narumir.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: blog-api
+                port:
+                  number: 4000
