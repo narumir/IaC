@@ -60,7 +60,7 @@ resource "aws_iam_role_policy_attachment" "blog-content-lambda-execution" {
 }
 
 data "aws_s3_object" "blog-content-resizer-code" {
-  bucket = aws_s3_bucket.blog-content.id
+  bucket = aws_s3_bucket.code_store.id
   key    = "resizer/lambda.zip"
 }
 
@@ -68,6 +68,7 @@ resource "aws_lambda_function" "blog-content" {
   role              = aws_iam_role.blog-content-lambda.arn
   handler           = "index.handler"
   runtime           = "nodejs18.x"
+  function_name     = "blog-content-resizer"
   s3_bucket         = data.aws_s3_object.blog-content-resizer-code.bucket
   s3_key            = data.aws_s3_object.blog-content-resizer-code.key
   s3_object_version = data.aws_s3_object.blog-content-resizer-code.version_id
