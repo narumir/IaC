@@ -175,7 +175,7 @@ spec:
     spec:
       containers:
         - name: blog-frontend
-          image: "ghcr.io/narumir/blog-frontend:0.0.1"
+          image: "ghcr.io/narumir/blog-frontend:0.0.4"
           ports:
             - name: frontend
               containerPort: 3000
