@@ -65,9 +65,9 @@ data "aws_s3_object" "blog-content-resizer-code" {
 }
 
 resource "aws_lambda_function" "blog-content" {
-  role    = aws_iam_role.blog-content-lambda.arn
-  handler = "index.handler"
-  runtime = "nodejs18.x"
+  role              = aws_iam_role.blog-content-lambda.arn
+  handler           = "index.handler"
+  runtime           = "nodejs18.x"
   s3_bucket         = data.aws_s3_object.blog-content-resizer-code.bucket
   s3_key            = data.aws_s3_object.blog-content-resizer-code.key
   s3_object_version = data.aws_s3_object.blog-content-resizer-code.version_id
